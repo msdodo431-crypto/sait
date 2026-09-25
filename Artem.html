@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МДК — вопросы</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#eeeeee;--paper:#fff;--soft:#f7f7f7;--line:#d0d0d0;--line2:#e4e4e4;--text:#252525;--muted:#707070;--dark:#292929;--link:#3f5d9b}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+.header{height:66px;background:var(--dark);color:#fff;border-bottom:3px solid #d7d7d7}
+.header-inner{width:min(1060px,92%);height:100%;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:baseline;gap:11px}.brand-title{font-size:22px;font-weight:700}.brand-subtitle{font-size:12px;color:#bdbdbd}.header-note{font-size:12px;color:#bdbdbd}.header-note b{color:#fff}
+.page{width:min(1060px,92%);margin:25px auto 38px}
+.intro{display:flex;align-items:end;justify-content:space-between;margin-bottom:15px;gap:25px}.intro h1{font-size:28px;margin:5px 0 0}.intro>p{font-size:13px;color:var(--muted);margin:0 0 3px;text-align:right}.small-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#888;font-weight:700}
+
+/* Поиск */
+.search-card{background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:15px 17px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
+.search-label{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}.search-label span{font-size:13px;font-weight:700}.search-label small{font-size:10px;color:#999}
+.search-row{display:flex;gap:7px}.search-row input{height:42px;flex:1;min-width:0;border:1px solid #999;border-radius:3px;padding:0 12px;font-size:14px;outline:0;background:#fff}.search-row input:focus{border-color:#555}.search-row button{height:42px;padding:0 19px;border:1px solid #333;border-radius:3px;background:#333;color:#fff;font-weight:700;cursor:pointer}.search-row button:hover{background:#1d1d1d}
+.search-actions{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex-wrap:wrap;max-width:390px}.search-actions>span{font-size:10px;color:#999;margin-right:2px}.search-actions button{border:1px solid #ccc;background:#f4f4f4;color:#555;border-radius:3px;padding:6px 8px;font-size:10px;cursor:pointer}.search-actions button:hover{background:#e8e8e8}
+
+/* Верхний блок после поиска */
+.top-content{display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:14px;margin-top:14px}
+.result,.help-panel,.questions-panel{background:var(--paper);border:1px solid var(--line);border-radius:5px}
+.result{padding:18px 19px;min-height:156px}.result.empty{background:#fafafa}.result-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#888;font-weight:700}.result h2{font-size:19px;line-height:1.4;margin:8px 0}.result p{font-size:13px;line-height:1.55;color:#555;margin:0}.result-top{display:flex;align-items:center;justify-content:space-between}.number{font-size:11px;background:#ededed;padding:5px 8px;border-radius:3px;color:#555}.answer{margin-top:4px!important}.result-bottom{border-top:1px solid var(--line2);margin-top:14px;padding-top:10px;display:flex;gap:10px;align-items:center;font-size:11px}.topic{background:#f1f1f1;padding:4px 7px;border-radius:3px;color:#666}.result-bottom a{color:var(--link);text-decoration:none}
+.help-panel{padding:17px 18px}.help-panel h2{font-size:17px;margin:5px 0 15px}.steps{display:flex;flex-direction:column;gap:11px}.steps div{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.45;color:#666}.steps b{width:20px;height:20px;flex:0 0 20px;border:1px solid #ccc;background:#f5f5f5;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#555}
+
+/* Список вопросов */
+.questions-panel{margin-top:14px;padding:17px}.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:9px}.section-head h2{font-size:18px;margin:5px 0 0}.count{font-size:11px;color:#777;border:1px solid var(--line);padding:5px 8px;border-radius:3px}
+.questions-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
+.question-row{width:100%;min-height:52px;display:grid;grid-template-columns:27px 1fr 15px;align-items:start;gap:5px;border:0;border-top:1px solid var(--line2);background:#fff;padding:10px 3px;text-align:left;cursor:pointer;color:#333}.question-row:hover{background:#f8f8f8}.q-number{font-size:10px;color:#888;padding-top:2px}.q-text{font-size:12px;line-height:1.4}.arrow{font-size:17px;color:#aaa;text-align:right}
+footer{margin-top:17px;color:#888;font-size:11px}
+@media(max-width:820px){.search-card{grid-template-columns:1fr}.search-actions{justify-content:flex-start;max-width:none}.top-content{grid-template-columns:1fr}.intro{display:block}.intro>p{text-align:left;margin-top:7px}.questions-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.header-note{display:none}.page{width:94%;margin-top:20px}.intro h1{font-size:24px}.search-row{flex-direction:column}.search-row button{width:100%}.questions-panel,.result,.help-panel{padding:15px}.search-card{padding:14px}.search-actions button{font-size:10px}}
+
+.below.single-column {
+  display: block;
+}
+.below.single-column .questions-panel {
+  width: 100%;
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-title">МДК</div>
+      <div class="brand-subtitle">Вопросы для подготовки</div>
+    </div>
+    <div class="header-note">База: <b>50</b> вопросов</div>
+  </div>
+</header>
+
+<main class="page">
+  <section class="intro">
+    <div>
+      <div class="small-title">Учебная база</div>
+      <h1>Вопросы к экзамену</h1>
+    </div>
+  </section>
+
+  <section class="search-card">
+    <div class="search-main">
+      <div class="search-label">
+        <span>Поиск</span>
+        <small>номер или ключевое слово</small>
+      </div>
+      <div class="search-row">
+        <input id="questionInput" type="text" placeholder="Например: 11 или «аутентификация»">
+        <button id="searchButton">Найти</button>
+      </div>
+    </div>
+    <div class="search-actions">
+      <span>Быстро:</span>
+      <button data-query="уязвимость">уязвимость</button>
+      <button data-query="аутентификация">аутентификация</button>
+      <button data-query="целостность">целостность</button>
+      <button id="randomButton">случайный вопрос</button>
+    </div>
+  </section>
+
+  <section class="top-content">
+    <section id="result" class="result empty">
+      <div class="result-label">Результат поиска</div>
+      <h2>Вопрос пока не выбран</h2>
+      <p>Введи номер или слово в строке поиска.</p>
+    </section>
+  </section>
+
+  <section class="questions-panel">
+    <div class="section-head">
+      <div>
+        <div class="small-title">Навигация</div>
+        <h2>Все вопросы</h2>
+      </div>
+      <span id="count" class="count">50</span>
+    </div>
+    <div id="questions" class="questions-grid"></div>
+  </section>
+
+  <footer>МДК · учебная база вопросов</footer>
+</main>
+<script>
+const questions = [
+  {
+    "id": 1,
+    "question": "Порядок установки и ввода в эксплуатацию средств защиты информации в компьютерных сетях?",
+    "answer": "Установка и ввод в эксплуатацию СЗИ включает проведение предпроектного обследования, разработку ТЗ, монтаж программно-аппаратных средств, проведение пусконаладочных работ, предварительные испытания, опытные испытания и аттестацию объекта информатизации по требованиям безопасности информации.",
+    "topic": "Тема 2.6.1",
+    "sourceName": "КонсультантПлюс (ГОСТ Р 51583-2014)",
+    "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=EXP&n=608779",
+    "normalized": "порядок установки и ввода в эксплуатацию средств защиты информации в компьютерных сетях"
+  },
+  {
+    "id": 2,
+    "question": "Понятие уязвимости угрозы?",
+    "answer": "Уязвимость — это недостаток или слабость в программном/аппаратном обеспечении или процедурах реализации системы, которая может быть использована для реализации угрозы ИБ. Угроза — совокупность условий и факторов, создающих опасность нарушения конфиденциальности, целостности или доступности информации.",
+    "topic": "Тема 1.3.3",
+    "sourceName": "Банк данных угроз ФСТЭК России",
+    "url": "https://bdu.fstec.ru/terms",
+    "normalized": "понятие уязвимости угрозы"
+  },
+  {
+    "id": 3,
+    "question": "Требования к автоматизированной системе в защищенном исполнении?",
+    "answer": "Требования включают обеспечение подсистем идентификации/аутентификации, управления доступом, защиты машинных носителей, регистрации событий безопасности, антивирусной защиты, обнаружения вторжений и контроля целостности согласно руководящим документам ФСТЭК/ГОСТ.",
+    "topic": "Тема 1.2.4",
+    "sourceName": "Официальный сайт ФСТЭК России",
+    "url": "https://fstec.ru/normotvorcheskaya-deyatelnost/akt-fstek-rossii",
+    "normalized": "требования к автоматизированной системе в защищенном исполнении"
+  },
+  {
+    "id": 4,
+    "question": "Обеспечение целостности информационной системы и информации?",
+    "answer": "Целостность обеспечивается предотвращением несанкционированного изменения или уничтожения информации. Применяются контрольные суммы (хеширование по ГОСТ Р 34.11-2012), электронная цифровая подпись (ЭЦП), средства защиты от НСД и механизмы контроля замкнутой программной среды.",
+    "topic": "Тема 2.5.6",
+    "sourceName": "Информационный портал Гарант.ру",
+    "url": "https://www.garant.ru/article/1498114/",
+    "normalized": "обеспечение целостности информационной системы и информации"
+  },
+  {
+    "id": 5,
+    "question": "Исследование эффективности проектных решений программно-аппаратных средств обеспечения защиты информации в автоматизированной системе?",
+    "answer": "Оценка эффективности проводится путем анализа соответствия принятых проектных решений требованиям ТЗ, проведения аттестационных испытаний, тестирования на проникновение (пентест) и проверки отсутствия уязвимостей в СЗИ.",
+    "topic": "Тема 2.5.9",
+    "sourceName": "Академия Cybersecurity (Kaspersky)",
+    "url": "https://www.kaspersky.ru/enterprise-security",
+    "normalized": "исследование эффективности проектных решений программно аппаратных средств обеспечения защиты информации в автоматизированной системе"
+  },
+  {
+    "id": 6,
+    "question": "Настройка и устранение неисправности программно-аппаратных средств защиты информации в компьютерных сетях по заданным правилам?",
+    "answer": "Включает регламентные работы, мониторинг журналов событий (System Logs), настройку правил сетевого экранирования (ACL), замену сбойных модулей, обновление сигнатур и конфигураций согласно эксплуатационной документации.",
+    "topic": "Тема 2.6.2",
+    "sourceName": "База знаний Cisco Security",
+    "url": "https://www.cisco.com/c/ru_ru/support/index.html",
+    "normalized": "настройка и устранение неисправности программно аппаратных средств защиты информации в компьютерных сетях по заданным правилам"
+  },
+  {
+    "id": 7,
+    "question": "Содержание и порядок деятельности персонала по эксплуатации защищенных автоматизированных систем и подсистем безопасности автоматизированных систем?",
+    "answer": "Персонал обязан соблюдать инструкции по ИБ, правила работы с конфиденциальными ресурсами, вести учет носителей информации. Администратор ИБ осуществляет контроль доступа, ведение логов и реагирование на инциденты.",
+    "topic": "Тема 2.3.1",
+    "sourceName": "КонсультантПлюс (Должностные инструкции ИБ)",
+    "url": "https://www.consultant.ru/law/podborki/administrator_informacionnoj_bezopasnosti/",
+    "normalized": "содержание и порядок деятельности персонала по эксплуатации защищенных автоматизированных систем и подсистем безопасности автоматизированных систем"
+  },
+  {
+    "id": 8,
+    "question": "Анализ информационной инфраструктуры автоматизированной системы и ее безопасности?",
+    "answer": "Анализ включает инвентаризацию сетевых узлов, программных средств, определение потоков данных, построение модели нарушителя и определение актуальных угроз ИБ для выявления слабых мест.",
+    "topic": "Тема 2.1.1",
+    "sourceName": "Хабр (Статьи по аудиту ИБ)",
+    "url": "https://habr.com/ru/articles/538058/",
+    "normalized": "анализ информационной инфраструктуры автоматизированной системы и ее безопасности"
+  },
+  {
+    "id": 9,
+    "question": "Контроль печати?",
+    "answer": "Контроль печати конфиденциальных документов реализуется через перехват заданий печати, водяные знаки, маркировку грифонами («Секретно», «Конфиденциально»), регистрацию в журнале учета и привязку печатных работ к конкретному пользователю.",
+    "topic": "Тема 2.5.5",
+    "sourceName": "Официальный сайт SecurityCode (Secret Net)",
+    "url": "https://www.securitycode.ru/products/secret-net-studio/",
+    "normalized": "контроль печати"
+  },
+  {
+    "id": 10,
+    "question": "Обнаружение (предотвращение) вторжений?",
+    "answer": "Осуществляется с помощью систем IDS/IPS. Системы используют сигнатурный (поиск известных шаблонов атак) и поведенческий аномальный анализ трафика и событий на хостах для немедленной блокировки атак.",
+    "topic": "Тема 1.5.3",
+    "sourceName": "Портал SecurityLab (Раздел IDS/IPS)",
+    "url": "https://www.securitylab.ru/software/1252/",
+    "normalized": "обнаружение предотвращение вторжений"
+  },
+  {
+    "id": 11,
+    "question": "Идентификация и аутентификация субъектов доступа и объектов доступа?",
+    "answer": "Идентификация — присвоение субъекту уникального имени/логина. Аутентификация — проверка подлинности предъявленного идентификатора (пароль, токен, биометрия). Применяются двухфакторная аутентификация (2FA) и сертификаты X.509.",
+    "topic": "Тема 1.5.1",
+    "sourceName": "Портал ISO/IEC (Стандарт 27001)",
+    "url": "https://www.iso.org/isoiec-27001-information-security.html",
+    "normalized": "идентификация и аутентификация субъектов доступа и объектов доступа"
+  },
+  {
+    "id": 12,
+    "question": "Основные принципы защиты от НСД?",
+    "answer": "Принципы: наименьших привилегий, персональной ответственности, непрерывности защиты, комплексности, системности и изолированности программной среды.",
+    "topic": "Тема 2.4.1",
+    "sourceName": "ФСТЭК России (РД Защита от НСД)",
+    "url": "https://fstec.ru/tekhnicheskaya-zashchita-informatsii/dokumenty-sistem-sertifikatsii",
+    "normalized": "основные принципы защиты от нсд"
+  },
+  {
+    "id": 13,
+    "question": "Основные способы НСД?",
+    "answer": "Способы НСД: подбор паролей, программные закладки, вредоносное ПО, перехват данных в сетях (sniffing), социальная инженерия, использование уязвимостей ПО и физический доступ к оборудованию.",
+    "topic": "Тема 2.4.1",
+    "sourceName": "Касперский Threat Intelligence",
+    "url": "https://encyclopedia.kaspersky.ru/",
+    "normalized": "основные способы нсд"
+  },
+  {
+    "id": 14,
+    "question": "Понятие жизненного цикла АИС?",
+    "answer": "Жизненный цикл АИС включает стадии: исследование и обоснование создания, разработка ТЗ, проектирование, изготовление/разработка, ввод в эксплуатацию, эксплуатация и вывод из эксплуатации (ГОСТ 34.601-90).",
+    "topic": "Тема 1.2.1",
+    "sourceName": "КонсультантПлюс (ГОСТ 34.601-90)",
+    "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=EXP&n=382845",
+    "normalized": "понятие жизненного цикла аис"
+  },
+  {
+    "id": 15,
+    "question": "Требования защищенности СВТ от НСД к информации?",
+    "answer": "Средства вычислительной техники (СВТ) делятся на 7 классов защищенности (от 7 до 1). Требования включают очистку оперативной памяти, очистку внешних носителей, контроль целостности и регистрацию входа.",
+    "topic": "Тема 2.4.3",
+    "sourceName": "РД ФСТЭК (Классификация СВТ)",
+    "url": "https://fstec.ru/",
+    "normalized": "требования защищенности свт от нсд к информации"
+  },
+  {
+    "id": 16,
+    "question": "Требования по защите информации от НСД для АС?",
+    "answer": "Классификация АС по 9 классам защищенности (3Б-1А). Требования определяют состав подсистем безопасности: подсистема учета, мандатное или дискреционное разграничение доступа, защита каналов связи.",
+    "topic": "Тема 2.4.2",
+    "sourceName": "Гарант.ру (РД Автоматизированные системы)",
+    "url": "https://base.garant.ru/12122137/",
+    "normalized": "требования по защите информации от нсд для ас"
+  },
+  {
+    "id": 17,
+    "question": "Отличительные черты АИС наиболее часто используемых классификаций?",
+    "answer": "АИС классифицируются по масштабу (одиночные, групповые, корпоративные), способу доступа (локальные, сетевые, Web), характеру использования (информационно-справочные, управляющие, экспертные).",
+    "topic": "Тема 1.1.1",
+    "sourceName": "КиберЛенинка (Статьи по АИС)",
+    "url": "https://cyberleninka.ru/article/n/klassifikatsiya-informatsionnyh-sistem",
+    "normalized": "отличительные черты аис наиболее часто используемых классификаций"
+  },
+  {
+    "id": 18,
+    "question": "Определения уровня защищенности ИСПДн и выбор мер по обеспечению безопасности ПДн?",
+    "answer": "Определяется согласно Постановлению Правительства № 1119 (4 уровня защищенности). Выбор мер регулируется Приказом ФСТЭК № 21 с учетом категории ПДн и количества субъектов.",
+    "topic": "Тема 1.7.2",
+    "sourceName": "Официальный сайт ФСТЭК (Приказ № 21)",
+    "url": "https://fstec.ru/normotvorcheskaya-deyatelnost/akt-fstek-rossii/221-prikaz-fstek-rossii-ot-18-fevralya-2013-g-n-21",
+    "normalized": "определения уровня защищенности испдн и выбор мер по обеспечению безопасности пдн"
+  },
+  {
+    "id": 19,
+    "question": "Регистрация событий безопасности?",
+    "answer": "Аудит и логирование входа пользователей, изменений прав доступа, сбоев в работе СЗИ. Базы антивирусных сигнатур должны регулярно обновляться для выявления актуального вредоносного ПО.",
+    "topic": "Тема 1.5.2",
+    "sourceName": "CISO Club (Журналирование событий ИБ)",
+    "url": "https://ciso.club/termins/audit-bezopasnosti/",
+    "normalized": "регистрация событий безопасности"
+  },
+  {
+    "id": 20,
+    "question": "Архитектура механизмов защиты распределенных автоматизированных систем?",
+    "answer": "Включает эшелонированную оборону (Defense-in-depth): защищенные VPN-каналы (IPsec/TLS), распределенные межсетевые экраны, централизованные сервера аутентификации (RADIUS/TACACS+/Active Directory).",
+    "topic": "Тема 1.6.1",
+    "sourceName": "Хабр (Архитектура ИБ в распределенных сетях)",
+    "url": "https://habr.com/ru/articles/451000/",
+    "normalized": "архитектура механизмов защиты распределенных автоматизированных систем"
+  },
+  {
+    "id": 21,
+    "question": "Задачи и функции администрирования автоматизированных систем?",
+    "answer": "Администрирование включает управление учетными записями, мониторинг производительности, обеспечение отказоустойчивости (кластеризация, RAID), резервное копирование и работу с пользователями.",
+    "topic": "Тема 2.2.1",
+    "sourceName": "Microsoft Learn (Администрирование систем)",
+    "url": "https://learn.microsoft.com/ru-ru/windows-server/",
+    "normalized": "задачи и функции администрирования автоматизированных систем"
+  },
+  {
+    "id": 22,
+    "question": "Методы мониторинга и аудита, выявления угроз информационной безопасности автоматизированных систем?",
+    "answer": "Применяются активные методы (сканирование уязвимостей Nmap/OpenVAS) и пассивные методы (анализ логов с помощью SIEM систем, анализ сетевого трафика с помощью Wireshark).",
+    "topic": "Тема 2.1.2",
+    "sourceName": "Официальный сайт OpenVAS",
+    "url": "https://www.openvas.org/",
+    "normalized": "методы мониторинга и аудита выявления угроз информационной безопасности автоматизированных систем"
+  },
+  {
+    "id": 23,
+    "question": "Разграничение доступа к устройствам?",
+    "answer": "Блокировка или контроль подключения внешних накопителей (USB-флешки, внешний HDD), оптических дисков, Bluetooth-модулей с помощью средств защиты (DeviceLock, Secret Net) для предотвращения утечек.",
+    "topic": "Тема 2.5.4",
+    "sourceName": "DeviceLock (Контроль устройств)",
+    "url": "https://www.devicelock.com/ru/",
+    "normalized": "разграничение доступа к устройствам"
+  },
+  {
+    "id": 24,
+    "question": "Работа с программным обеспечением с соблюдением действующих требований по защите информации?",
+    "answer": "Использование только сертифицированного ПО, контроль целостности исполняемых файлов (хеширование), запрет установки сторонних программ пользователями и соблюдение правил лицензирования.",
+    "topic": "Тема 2.5.10",
+    "sourceName": "Реестр отечественного ПО Минцифры РФ",
+    "url": "https://reestr.digital.gov.ru/",
+    "normalized": "работа с программным обеспечением с соблюдением действующих требований по защите информации"
+  },
+  {
+    "id": 25,
+    "question": "Потенциальные угрозы безопасности в автоматизированных системах?",
+    "answer": "Классифицируются по природе происхождения (природные, техногенные, антропогенные) и по направленности. Банк данных угроз ФСТЭК содержит полный список векторов атак и способов их нейтрализации.",
+    "topic": "Тема 1.3.1",
+    "sourceName": "БДУ ФСТЭК РФ (Банк Данных Угроз)",
+    "url": "https://bdu.fstec.ru/threat",
+    "normalized": "потенциальные угрозы безопасности в автоматизированных системах"
+  },
+  {
+    "id": 26,
+    "question": "Централизованное управление системой защиты, оперативный мониторинг и аудит безопасности?",
+    "answer": "Реализуется с помощью единой консоли управления СЗИ (например, Kaspersky Security Center или MaxPatrol). Позволяет удаленно распространять политики безопасности и оперативно фиксировать инциденты.",
+    "topic": "Тема 2.5.7",
+    "sourceName": "Positive Technologies (MaxPatrol SIEM)",
+    "url": "https://www.ptsecurity.com/ru-ru/products/maxpatrol-siem/",
+    "normalized": "централизованное управление системой защиты оперативный мониторинг и аудит безопасности"
+  },
+  {
+    "id": 27,
+    "question": "Резервное копирование и восстановление данных?",
+    "answer": "Применяется правило 3-2-1 (3 копии, 2 разных носителя, 1 копию хранить удаленно). Типы бэкапов: полный, дифференциальный, инкрементный. Позволяет быстро восстановить данные при сбоях или Ransomware.",
+    "topic": "Тема 1.5.5",
+    "sourceName": "Veeam Software (Стратегии бэкапа)",
+    "url": "https://www.veeam.com/ru",
+    "normalized": "резервное копирование и восстановление данных"
+  },
+  {
+    "id": 28,
+    "question": "Разработка технического задания на создание подсистем информационной безопасности автоматизированных систем?",
+    "answer": "ТЗ разрабатывается по ГОСТ 34.602-89. Содержит требования к функционалу защиты, нормативно-правовую базу, условия эксплуатации, требования к надежности и порядок приемки подсистемы ИБ.",
+    "topic": "Тема 1.2.5",
+    "sourceName": "КонсультантПлюс (ГОСТ 34.602-89)",
+    "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=EXP&n=382846",
+    "normalized": "разработка технического задания на создание подсистем информационной безопасности автоматизированных систем"
+  },
+  {
+    "id": 29,
+    "question": "Электронный документооборот?",
+    "answer": "СЭД обеспечивает создание, передачу, архивное хранение и подписанием документов с использованием усиленной квалифицированной электронной подписи (КЭП) по стандарту 63-ФЗ.",
+    "topic": "Тема 1.1.3",
+    "sourceName": "КонсультантПлюс (ФЗ № 63-ФЗ Об ЭП)",
+    "url": "https://www.consultant.ru/document/cons_doc_LAW_112701/",
+    "normalized": "электронный документооборот"
+  },
+  {
+    "id": 30,
+    "question": "технические меры защиты информации в автоматизированных системах?",
+    "answer": "Включают организационные, правовые, криптографические и программно-аппаратные меры: межсетевые экраны, криптошлюзы, средства защиты от НСД, системы DLP, биометрический контроль.",
+    "topic": "Тема 1.4.1",
+    "sourceName": "ФСТЭК России (Методические документы)",
+    "url": "https://fstec.ru/tekhnicheskaya-zashchita-informatsii",
+    "normalized": "технические меры защиты информации в автоматизированных системах"
+  },
+  {
+    "id": 31,
+    "question": "Основные эксплуатационные документы защищенных автоматизированных систем?",
+    "answer": "Документы: Технический паспорт на АС, Акт ввода в эксплуатацию, Инструкция администратора ИБ, Положение о разграничении прав доступа, Журнал учета носителей.",
+    "topic": "Тема 2.7.1",
+    "sourceName": "Гарант.ру (Формы документов ИБ)",
+    "url": "https://www.garant.ru/",
+    "normalized": "основные эксплуатационные документы защищенных автоматизированных систем"
+  },
+  {
+    "id": 32,
+    "question": "Нормативно-правовая база для определения мер защиты информации в автоматизированных информационных системах и требований к ним?",
+    "answer": "Включает ФЗ № 149-ФЗ «Об информации», ФЗ № 152-ФЗ «О персональных данных», Приказы ФСТЭК № 17, № 21, № 31, ГОСТы серии 34 и РД ФСТЭК.",
+    "topic": "Тема 1.4.2",
+    "sourceName": "Официальный сайт ФСТЭК (Приказ № 17)",
+    "url": "https://fstec.ru/normotvorcheskaya-deyatelnost/akt-fstek-rossii/220-prikaz-fstek-rossii-ot-11-fevralya-2013-g-n-17",
+    "normalized": "нормативно правовая база для определения мер защиты информации в автоматизированных информационных системах и требований к ним"
+  },
+  {
+    "id": 33,
+    "question": "Разработка технического задания на проектирование автоматизированной системы?",
+    "answer": "ТЗ на проектирование АС определяет цели, исходные данные, требования к системе, состав и содержание работ по созданию АС, а также порядок контроля и приемки (ГОСТ 34.602-89).",
+    "topic": "Тема 1.2.3",
+    "sourceName": "КонсультантПлюс (ГОСТ 34.602-89)",
+    "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=EXP&n=382846",
+    "normalized": "разработка технического задания на проектирование автоматизированной системы"
+  },
+  {
+    "id": 34,
+    "question": "Порядок выбора мер по обеспечению безопасности персональных данных?",
+    "answer": "Выбор мер выполняется на основе установленного уровня защищенности ИСПДн (УЗ-1...УЗ-4) и базовых наборов мер согласно Приказу ФСТЭК № 21 с адаптацией под специфику системы.",
+    "topic": "Тема 1.7.1",
+    "sourceName": "Роскомнадзор (Защита персданных)",
+    "url": "https://pd.rkn.gov.ru/",
+    "normalized": "порядок выбора мер по обеспечению безопасности персональных данных"
+  },
+  {
+    "id": 35,
+    "question": "Настройка системы для задач аудита?",
+    "answer": "Включает включение политик аудита (Audit Policy в Windows/Linux), настройку отслеживания успешных и неудачных попыток входа, доступа к конфиденциальным файлам и изменений прав пользователей.",
+    "topic": "Тема 2.5.8",
+    "sourceName": "Microsoft Learn (Политика аудита)",
+    "url": "https://learn.microsoft.com/ru-ru/windows/security/threat-protection/auditing/basic-security-audit-policies",
+    "normalized": "настройка системы для задач аудита"
+  },
+  {
+    "id": 36,
+    "question": "Рассмотрение примеров функционирования автоматизированных информационных систем?",
+    "answer": "Примеры: ЕГАИС (учет алкогольной продукции), РТС (торговые операции), банковские АБС, Госуслуги. Защита реализуется через шифрование каналов (ГОСТ TLS), ЭЦП и строгую аутентификацию.",
+    "topic": "Тема 1.1.4",
+    "sourceName": "Официальный сайт ЕГАИС",
+    "url": "https://egais.ru/",
+    "normalized": "рассмотрение примеров функционирования автоматизированных информационных систем"
+  },
+  {
+    "id": 37,
+    "question": "Технологии виртуализации?",
+    "answer": "Гипервизоры Type-1 (ESXi, Proxmox) и Type-2 (VirtualBox). Требования ИБ регулируются Приказом ФСТЭК № 17/21 — требуется изоляция виртуальных машин, зашифрованные хранилища и контроль гипервизора.",
+    "topic": "Тема 1.5.4",
+    "sourceName": "VMware Security Solutions",
+    "url": "https://www.vmware.com/solutions/security.html",
+    "normalized": "технологии виртуализации"
+  },
+  {
+    "id": 38,
+    "question": "Содержание и порядок выполнения работ по защите информации при модернизации автоматизированной системы в защищенном исполнении?",
+    "answer": "Включает корректировку модели угроз, переработку ТЗ, настройку новых СЗИ, повторные аттестационные испытания и внесение изменений в Технический паспорт АС.",
+    "topic": "Тема 2.1.3",
+    "sourceName": "ФСТЭК России (Положение об аттестации)",
+    "url": "https://fstec.ru/",
+    "normalized": "содержание и порядок выполнения работ по защите информации при модернизации автоматизированной системы в защищенном исполнении"
+  },
+  {
+    "id": 39,
+    "question": "Построение модели угроз?",
+    "answer": "Построение модели угроз выполняется по методике ФСТЭК России (2021 г.). Оценивается уровень возможностей нарушителя (базовый, средний, высокий) и определяется список актуальных угроз ИБ.",
+    "topic": "Тема 1.3.5",
+    "sourceName": "ФСТЭК России (Методика оценки угроз 2021)",
+    "url": "https://fstec.ru/dokumenty/vse-dokumenty/spetsialnye-dokumenty/metodicheskij-dokument-ot-5-fevralya-2021-g",
+    "normalized": "построение модели угроз"
+  },
+  {
+    "id": 40,
+    "question": "Правила работы с конфиденциальными ресурсами?",
+    "answer": "Включает настройку мандатного контроля доступа (MAC), маркировку документов грифами, логирование всех сессий, учет съемных носителей и зашифрованное хранение данных.",
+    "topic": "Тема 2.5.2",
+    "sourceName": "Гарант.ру (Коммерческая тайна)",
+    "url": "https://base.garant.ru/12136454/",
+    "normalized": "правила работы с конфиденциальными ресурсами"
+  },
+  {
+    "id": 41,
+    "question": "Анализ угроз безопасности информации?",
+    "answer": "Определение источников угроз, возможных способов их реализации, вероятности наступления и степени потенциального ущерба для информационной системы.",
+    "topic": "Тема 1.3.4",
+    "sourceName": "БДУ ФСТЭК России",
+    "url": "https://bdu.fstec.ru/",
+    "normalized": "анализ угроз безопасности информации"
+  },
+  {
+    "id": 42,
+    "question": "Установка и настройка СЗИ от НСД?",
+    "answer": "Установка комплексов типа Secret Net, Dallas Lock, Astra Linux SE. Настройка замкнутой программной среды, блокировки клавиатуры/мыши при неактивности, аппаратных ключей (iButton, RuToken).",
+    "topic": "Тема 2.5.3",
+    "sourceName": "Dallas Lock (Официальный сайт)",
+    "url": "https://dallaslock.ru/",
+    "normalized": "установка и настройка сзи от нсд"
+  },
+  {
+    "id": 43,
+    "question": "Категорирование информационных ресурсов?",
+    "answer": "Присвоение категориям информации (гостайна, КИИ, персданные, коммерческая тайна) соответствующего грифа конфиденциальности и определение необходимых нормативных требований защиты.",
+    "topic": "Тема 1.3.2",
+    "sourceName": "КонсультантПлюс (ФЗ № 149-ФЗ)",
+    "url": "https://www.consultant.ru/document/cons_doc_LAW_61798/",
+    "normalized": "категорирование информационных ресурсов"
+  },
+  {
+    "id": 44,
+    "question": "Устранение отказов и восстановление работоспособности компонентов систем защиты информации автоматизированных систем?",
+    "answer": "Диагностика сбоев, замена аппаратных модулей, откат конфигурации СЗИ из бэкапа, перевыпуск сертификатов и повторная проверка работоспособности подсистемы защиты.",
+    "topic": "Тема 2.6.3",
+    "sourceName": "CISO Club (Эксплуатация СЗИ)",
+    "url": "https://ciso.club/",
+    "normalized": "устранение отказов и восстановление работоспособности компонентов систем защиты информации автоматизированных систем"
+  },
+  {
+    "id": 45,
+    "question": "Оформление основных эксплуатационных документов на автоматизированную систему?",
+    "answer": "Разработка эксплуатационных документов по ГОСТ 34.201-89. Составление Акта ввода в эксплуатацию, технического паспорта и инструкций пользователя по соблюдению ИБ.",
+    "topic": "Тема 2.7.2",
+    "sourceName": "КонсультантПлюс (ГОСТ 34.201-89)",
+    "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=EXP&n=382844",
+    "normalized": "оформление основных эксплуатационных документов на автоматизированную систему"
+  },
+  {
+    "id": 46,
+    "question": "Основные механизмы защиты?",
+    "answer": "Избирательное и мандатное управление доступом, контроль аппаратной конфигурации ПК, очистка памяти, затирание данных, очистка очереди печати.",
+    "topic": "Тема 2.5.1",
+    "sourceName": "Код Безопасности (Secret Net Studio)",
+    "url": "https://www.securitycode.ru/",
+    "normalized": "основные механизмы защиты"
+  },
+  {
+    "id": 47,
+    "question": "Использование принтеров для печати конфиденциальных документов?",
+    "answer": "Печать на защищенных принтерах с авторизацией по смарт-картам, автоматическое добавление штампов конфиденциальности и протоколирование всех распечатанных страниц.",
+    "topic": "Тема 2.5.5",
+    "sourceName": "Астра Линукс (Защищенная печать)",
+    "url": "https://astralinux.ru/",
+    "normalized": "использование принтеров для печати конфиденциальных документов"
+  },
+  {
+    "id": 48,
+    "question": "Задачи и этапы проектирования автоматизированных систем в защищенном исполнении?",
+    "answer": "Этапы: Техническое задание, Эскизный проект, Технический проект, Рабочая документация, Ввод в действие. Выполняется по ГОСТ 34.601-90.",
+    "topic": "Тема 1.2.2",
+    "sourceName": "КонсультантПлюс (ГОСТ 34.601-90)",
+    "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=EXP&n=382845",
+    "normalized": "задачи и этапы проектирования автоматизированных систем в защищенном исполнении"
+  },
+  {
+    "id": 49,
+    "question": "Методы, способы и средства обеспечения отказоустойчивости автоматизированных систем?",
+    "answer": "Кластеризация серверов, избыточные массивы дисков (RAID 1/5/10), дублирование сетевых адаптеров (Teaming/Bonding), источники бесперебойного питания (ИБП).",
+    "topic": "Тема 2.2.1",
+    "sourceName": "Хабр (Отказоустойчивые инфраструктуры)",
+    "url": "https://habr.com/ru/articles/342130/",
+    "normalized": "методы способы и средства обеспечения отказоустойчивости автоматизированных систем"
+  },
+  {
+    "id": 50,
+    "question": "Требования к АИС: гибкость, надежность, эффективность, безопасность?",
+    "answer": "АИС должна быть надежной (минимальное время простоя), гибкой (масштабируемой при росте), эффективной (быстрый отклик) и безопасной (соответствие требованиям ФСТЭК/ФСБ).",
+    "topic": "Тема 1.1.2",
+    "sourceName": "ISO/IEC 25010 (Качество систем и ПО)",
+    "url": "https://www.iso.org/standard/35733.html",
+    "normalized": "требования к аис гибкость надежность эффективность безопасность"
+  }
+];
+
+const input = document.getElementById("questionInput");
+const result = document.getElementById("result");
+const questionsBox = document.getElementById("questions");
+const count = document.getElementById("count");
+
+count.textContent = questions.length;
+
+function normalize(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/[^а-яa-z0-9\s]/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function showResult(item) {
+  if (!item) {
+    result.className = "result empty";
+    result.innerHTML = `
+      <div class="result-label">Результат</div>
+      <h2>Ничего не найдено</h2>
+      <p>Попробуй другой номер или ключевое слово.</p>`;
+    return;
+  }
+
+  result.className = "result";
+  result.innerHTML = `
+    <div class="result-top">
+      <div class="result-label">Найденный вопрос</div>
+      <span class="number">№ ${item.id}</span>
+    </div>
+    <h2>${item.question}</h2>
+    <p class="answer">${item.answer}</p>
+    <div class="result-bottom">
+      <span class="topic">${item.topic || "МДК"}</span>
+      <a href="${item.url}" target="_blank" rel="noopener">${item.sourceName || "Источник"} ↗</a>
+    </div>`;
+}
+
+function search() {
+  const value = normalize(input.value);
+  if (!value) {
+    showResult(null);
+    return;
+  }
+
+  if (/^\d+$/.test(value)) {
+    showResult(questions.find(q => String(q.id) === value));
+    return;
+  }
+
+  const words = value.split(" ").filter(w => w.length > 2);
+  let best = null;
+  let score = 0;
+
+  questions.forEach(q => {
+    const text = normalize(`${q.question} ${q.answer} ${q.topic}`);
+    let s = text.includes(value) ? 10 : 0;
+    words.forEach(word => { if (text.includes(word)) s += 1; });
+    if (s > score) {
+      score = s;
+      best = q;
+    }
+  });
+
+  showResult(score ? best : null);
+}
+
+function renderQuestions() {
+  questionsBox.innerHTML = "";
+  questions.forEach(q => {
+    const row = document.createElement("button");
+    row.className = "question-row";
+    row.innerHTML = `
+      <span class="q-number">${q.id}</span>
+      <span class="q-text">${q.question}</span>
+      <span class="arrow">›</span>`;
+    row.onclick = () => {
+      input.value = q.question;
+      showResult(q);
+      window.scrollTo({top: 0, behavior: "smooth"});
+    };
+    questionsBox.appendChild(row);
+  });
+}
+
+document.getElementById("searchButton").addEventListener("click", search);
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") search();
+});
+
+document.querySelectorAll(".search-actions button[data-query]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    input.value = btn.getAttribute("data-query");
+    search();
+  });
+});
+
+document.getElementById("randomButton").addEventListener("click", () => {
+  const randomIndex = Math.floor(Math.random() * questions.length);
+  const randomQ = questions[randomIndex];
+  input.value = randomQ.question;
+  showResult(randomQ);
+});
+
+renderQuestions();
+</script>
+</body>
+</html>
